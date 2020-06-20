@@ -7,11 +7,23 @@ class Game:
 		
 		self.board = Board()
 
-		self.player1 = input("Do you want to play as X or 0? ")
-		self.player2 = self.otherPlayer(self.player1)
+		while True:
 
-		startDecision = input("Do you want to start? (y/n): ")
-		self.turn = self.whoStarts(self.player1, startDecision)
+			self.player1 = input("Do you want to play as X or 0? ")
+			if self.player1 == "X" or self.player1 == "0":
+				self.player2 = self.otherPlayer(self.player1)
+				break
+			else:
+				print("Please pick a valid input")
+
+		while True:
+			
+			startDecision = input("Do you want to start? (y/n): ")
+			if startDecision == "y" or startDecision == "n":
+				self.turn = self.whoStarts(self.player1, startDecision)
+				break
+			else:
+				print("Please pick a valid input")
 
 	def otherPlayer(self, player1):
 
@@ -33,8 +45,14 @@ class Game:
 
 			self.board.display()
 			if self.turn == self.player1:
-				position = int(input("Where do you want to play? "))
 
+				try:	
+					position = int(input("Where do you want to play? "))
+				except:
+					print("Please play a legal move ")	
+					continue
+
+									
 				if self.board.legalMove(position):
 					self.board.move(position, self.turn)
 					self.turn = self.otherPlayer(self.turn)

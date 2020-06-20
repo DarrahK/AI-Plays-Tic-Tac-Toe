@@ -10,7 +10,7 @@ def moveAI(board, player2):
 		if board.legalMove(i + 1):
 			board_copy= copy.deepcopy(board)
 			board_copy.move(i + 1, player2)
-			score = minimax(board_copy, 0, False, player2)
+			score = minimax(board_copy, 0, -200000000000000, +200000000000000, False, player2)
 
 			if score > bestScore:
 				bestScore = score
@@ -18,7 +18,7 @@ def moveAI(board, player2):
 
 	return bestMove			
 
-def minimax(board, depth, maximisingPlayer, player2):
+def minimax(board, depth, alpha, beta, maximisingPlayer, player2):
 
 	scores = gameScores(player2)
 
@@ -26,19 +26,20 @@ def minimax(board, depth, maximisingPlayer, player2):
 		return scores[board.winner]
 
 	if maximisingPlayer:
-		maxEval = -200000000000000
+		eval = -200000000000000
 
 		for i in range(9):
 
 			if board.legalMove(i + 1):
 				board_copy = copy.deepcopy(board)
 				board_copy.move(i + 1, player2)
-				eval = minimax(board_copy, depth + 1, False, player2)
-				maxEval = max(maxEval, eval)
-
-		return maxEval
+				eval = max(eval, minimax(board_copy, depth + 1, alpha, beta, False, player2))
+				alpha = max(alpha, eval)
+				if (alpha >= beta):
+					break
+		return eval
 	else:
-		minEval = +200000000000000
+		eval = +200000000000000
 
 		for i in range(9):
 
@@ -46,10 +47,11 @@ def minimax(board, depth, maximisingPlayer, player2):
 				board_copy = copy.deepcopy(board)
 				player1 = otherPlayer(player2)
 				board_copy.move(i + 1, player1)
-				eval = minimax(board_copy, depth + 1, True, player2)
-				minEval = min(minEval, eval)
-
-		return minEval
+				eval = min(eval ,minimax(board_copy, depth + 1, alpha, beta, True, player2))
+				beta = min(beta, eval)
+				if (beta <= alpha):
+					break
+		return eval
 
 
 # Helper functions

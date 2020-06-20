@@ -19,7 +19,7 @@ class Board:
 
 	def legalMove(self, position):
 
-		if position == 0 or position > 9:
+		if int(position) < 1 or int(position) > 9:
 			return False
 
 		row    = int( (position - 1) / 3)
