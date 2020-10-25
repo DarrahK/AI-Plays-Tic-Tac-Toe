@@ -4,5 +4,5 @@ The motivation of this project was to explore object oriented programming with P
 
 ## To Run the Program 
 * Download the repository
-* Run the command "python3 play.py" in the terminal inside the file directory 
-* Follow the instruction that come up
+* Run the command "python3 play.py" in the terminal inside the directory 
+* Follow the instruction that comes up
